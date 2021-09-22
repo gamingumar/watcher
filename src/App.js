@@ -1,10 +1,11 @@
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
-import moment from 'moment'
+import moment from "moment";
 import { useEffect, useState } from "react";
 
 import { create } from "apisauce";
 
+// const baseURL = "http://guac5300.asuscomm.com";
 const baseURL = "";
 // define the api
 const api = create({
@@ -13,78 +14,108 @@ const api = create({
 });
 
 function App() {
-  const [data, setData] = useState(null);
-  const [data2, setData2] = useState(null);
+  const [gpu1, setGpu1] = useState(null);
+  const [gpu2, setGpu2] = useState(null);
+  const [gpu3, setGpu3] = useState(null);
 
-  const [datetime, setDatetime] = useState("")
-  const [error, setError] = useState("")
+  const [datetime, setDatetime] = useState(moment());
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let interval = null;
-
-    interval = setInterval(() => {
-      _getData();
-    }, 1000);
+    let timer = null;
 
     _getData();
 
+    timer = setInterval(() => {
+      let time = moment();
+      setDatetime(time);
+    }, 1000);
+
+    interval = setInterval(() => {
+      _getData();
+    }, 5000);
+
     return () => {
       clearTimeout(interval);
+      clearTimeout(timer);
     };
   }, []);
+
   const _getData = async () => {
-    let response = await api.get("http://guac5300.asuscomm.com:3080/summary");
-    let response2 = await api.get("http://guac5300.asuscomm.com:3070/summary");
+    let res1 = await api.get("http://guac5300.asuscomm.com:3080/summary");
+    let res2 = await api.get("http://guac5300.asuscomm.com:3070/summary");
+    let res3 = await api.get("http://guac5300.asuscomm.com:3071/summary");
 
-    if (!response.ok && error !== '') {
+    // const [res1, res2, res3] = Promise.all()
 
-      setError("Error Since")
-    } else {
-      setError('')
-    }
-
-    setData(response.data);
-    setData2(response2.data);
+    setGpu1(res1.data);
+    setGpu2(res2.data);
+    setGpu3(res3.data);
   };
 
-  const formatter = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
-  let time = moment()
+  useEffect(() => {
+    if (!gpu1 || !gpu2 || !gpu3) {
+      if (error === '') {
+        let t = moment();
+        setError("Error Since: " + t.format("LTS"));
+      }
+      
+    } else {
+      setError("");
+    }
+  }, [datetime]);
 
   return (
     <div className="App">
       <header className="App-header">
-      <h3>{time.format("LTS")}</h3>
-      <h4>{time.format("LL")}</h4>
+        <h1>{datetime.format("LTS")}</h1>
+        <h5>{datetime.format("LL")}</h5>
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {!data ? (
-          <p>3080 is Offline</p>
-        ) : (
-          <h1>
-            3080 Hashrate: {formatter.format(data?.hashrate * 0.000001)}Mh/s
-          </h1>
-        )}
-        {!data ? (
-          <p>3070 is Offline</p>
-        ) : (
-          <h1>
-            3070 Hashrate: {formatter.format(data2?.hashrate * 0.000001)}Mh/s
-          </h1>
-        )}
-        {/* <a
-          className="App-link"
-          href={baseURL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View 3080 Details
-        </a> */}
+
+        <GpuBlock gpu={gpu1} title="3080 Umar" />
+        <GpuBlock gpu={gpu2} title="3070 Umar" />
+        <GpuBlock gpu={gpu3} title="3070 Hamza" />
+
+        <code style={{color: 'red'}}>{error}</code>
       </header>
     </div>
   );
 }
 
 export default App;
+
+export const GpuBlock = ({ gpu, title }) => {
+  const _formatHash = (gpu) => {
+    const formatter = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    return formatter.format(gpu?.hashrate * 0.000001);
+  };
+
+  if (!gpu) {
+    return <p>{title} is Offline</p>;
+  }
+
+  const {gpus} = gpu;
+
+  const gpuInfo = gpus[0]
+
+  const {memory_temperature, temperature} = gpuInfo;
+
+  return (
+    <>
+      <h3 style={{marginVertical: -10}}>
+        {title}: {_formatHash(gpu)} Mh/s
+        {" " + temperature}C 
+        {
+          memory_temperature ? ` [${memory_temperature}C]` : null
+        }
+      </h3>
+     
+      
+    </>
+  );
+};
