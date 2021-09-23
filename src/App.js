@@ -4,6 +4,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 import { create } from "apisauce";
+import { GpuBlock } from "./Components/GpuBlock";
+import { Sunrise } from "./Components/Sunrise";
 
 // const baseURL = "http://guac5300.asuscomm.com";
 const baseURL = "";
@@ -56,11 +58,10 @@ function App() {
 
   useEffect(() => {
     if (!gpu1 || !gpu2 || !gpu3) {
-      if (error === '') {
+      if (error === "") {
         let t = moment();
         setError("Error Since: " + t.format("LTS"));
       }
-      
     } else {
       setError("");
     }
@@ -70,52 +71,26 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>{datetime.format("LTS")}</h1>
-        <h5>{datetime.format("LL")}</h5>
+        <h6>
+          {datetime.format("LL")}
+          <Sunrise />
+        </h6>
+
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
 
-        <GpuBlock gpu={gpu1} title="3080 Umar" />
-        <GpuBlock gpu={gpu2} title="3070 Umar" />
-        <GpuBlock gpu={gpu3} title="3070 Hamza" />
+        <GpuBlock gpu={gpu1} title="RTX 3080-OC" />
+        <GpuBlock gpu={gpu2} title="RTX 3070-EG" />
+        <GpuBlock gpu={gpu3} title="RTX 3070-OC" />
 
-        <code style={{color: 'red'}}>{error}</code>
+        <code style={{ color: "red" }}>{error}</code>
+
+        <p style={{ fontSize: 12 }}>
+          Powered by gamingumar.com | whilegeek.com | umar.tech &copy;{" "}
+          {datetime.format("Y")}
+        </p>
       </header>
     </div>
   );
 }
 
 export default App;
-
-export const GpuBlock = ({ gpu, title }) => {
-  const _formatHash = (gpu) => {
-    const formatter = new Intl.NumberFormat("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-
-    return formatter.format(gpu?.hashrate * 0.000001);
-  };
-
-  if (!gpu) {
-    return <p>{title} is Offline</p>;
-  }
-
-  const {gpus} = gpu;
-
-  const gpuInfo = gpus[0]
-
-  const {memory_temperature, temperature} = gpuInfo;
-
-  return (
-    <>
-      <h3 style={{marginVertical: -10}}>
-        {title}: {_formatHash(gpu)} Mh/s
-        {" " + temperature}C 
-        {
-          memory_temperature ? ` [${memory_temperature}C]` : null
-        }
-      </h3>
-     
-      
-    </>
-  );
-};
