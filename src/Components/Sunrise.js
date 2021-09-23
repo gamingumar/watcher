@@ -71,7 +71,9 @@ export const Sunrise = () => {
   }
 
   const _formatTime = (t) => {
-    let timeData = moment.utc(t, "HH:mm:ss:A").local();
+    let date = moment().format("Y-M-D")
+
+    let timeData = moment.utc(date+ ' ' +t, "Y-M-D HH:mm:ss:A").local();
 
     return timeData.format("LTS") + ` (${timeData.fromNow()})`
   }
