@@ -1,4 +1,4 @@
-// import logo from "./logo.svg";
+import logo from "./logo.svg";
 import "./App.css";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -23,11 +23,13 @@ function App() {
   const [datetime, setDatetime] = useState(moment());
   const [error, setError] = useState("");
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     let interval = null;
     let timer = null;
 
-    _getData();
+    _getData(true);
 
     timer = setInterval(() => {
       let time = moment();
@@ -44,7 +46,11 @@ function App() {
     };
   }, []);
 
-  const _getData = async () => {
+  const _getData = async (firstTime = false) => {
+    if (loading && !firstTime) {
+      return;
+    }
+    setLoading(true);
     let res1 = await api.get("http://guac5300.asuscomm.com:3080/summary");
     let res2 = await api.get("http://guac5300.asuscomm.com:3070/summary");
     let res3 = await api.get("http://guac5300.asuscomm.com:3071/summary");
@@ -54,6 +60,8 @@ function App() {
     setGpu1(res1.data);
     setGpu2(res2.data);
     setGpu3(res3.data);
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -72,11 +80,17 @@ function App() {
       <header className="App-header">
         <h1>{datetime.format("LTS")}</h1>
         <h6>
-          {datetime.format("LL")}
+          {datetime.format("LL")}{" "}
+          {loading && (
+            <img
+              style={{ marginTop: 5, position: "absolute" }}
+              src={logo}
+              className="App-logo"
+              alt="logo"
+            />
+          )}
           <Sunrise />
         </h6>
-
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
 
         <GpuBlock gpu={gpu1} title="RTX 3080-OC" />
         <GpuBlock gpu={gpu2} title="RTX 3070-EG" />
