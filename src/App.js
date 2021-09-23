@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import moment from "moment";
+import { version } from '../package.json'
 import { useEffect, useState } from "react";
 
 import { create } from "apisauce";
@@ -14,6 +15,8 @@ const api = create({
   baseURL,
   headers: { Accept: "application/vnd.github.v3+json" },
 });
+
+const REFRESH_INTERVAL = 10000
 
 function App() {
   const [gpu1, setGpu1] = useState(null);
@@ -36,9 +39,10 @@ function App() {
       setDatetime(time);
     }, 1000);
 
+    // refresh after few seconds / REFRESH_INTERVAL
     interval = setInterval(() => {
       _getData();
-    }, 5000);
+    }, REFRESH_INTERVAL);
 
     return () => {
       clearTimeout(interval);
@@ -100,7 +104,7 @@ function App() {
 
         <p style={{ fontSize: 12 }}>
           Powered by gamingumar.com | whilegeek.com | umar.tech &copy;{" "}
-          {datetime.format("Y")}
+          {datetime.format("Y")} | v{version}
         </p>
       </header>
     </div>
