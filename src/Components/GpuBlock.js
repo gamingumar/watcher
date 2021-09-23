@@ -27,16 +27,17 @@ export const GpuBlock = ({ gpu, title }) => {
 
   const gpuInfo = gpus[0]
 
-  const {memory_temperature, temperature} = gpuInfo;
+  const {memory_temperature, temperature, efficiency, power} = gpuInfo;
 
   return (
     <>
-      <h3 style={{marginVertical: -10}}>
-        {title}: {_formatHash(gpu)} Mh/s
+      <h3 style={{marginVertical: -10}} title={efficiency}>
+        {title}: {_formatHash(gpu)}Mh/s {power}W
         {" " + temperature}C 
         {
           memory_temperature ? ` [${memory_temperature}C]` : null
         }
+        
       </h3>
      
       

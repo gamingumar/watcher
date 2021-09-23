@@ -23,13 +23,13 @@ function App() {
   const [datetime, setDatetime] = useState(moment());
   const [error, setError] = useState("");
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let interval = null;
     let timer = null;
 
-    _getData(true);
+    _getData();
 
     timer = setInterval(() => {
       let time = moment();
@@ -46,8 +46,8 @@ function App() {
     };
   }, []);
 
-  const _getData = async (firstTime = false) => {
-    if (loading && !firstTime) {
+  const _getData = async () => {
+    if (loading) {
       return;
     }
     setLoading(true);
