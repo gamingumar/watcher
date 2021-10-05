@@ -8,7 +8,13 @@ import { create } from "apisauce";
 import { GpuBlock } from "./Components/GpuBlock";
 import { Sunrise } from "./Components/Sunrise";
 
-// const baseURL = "http://guac5300.asuscomm.com";
+
+const card1 = "http://192.168.1.56:4067/summary";
+const card2 = "http://192.168.1.56:4069/summary";
+const card3 = "http://192.168.1.152:4067/summary";
+
+
+
 const baseURL = "";
 // define the api
 const api = create({
@@ -51,20 +57,30 @@ function App() {
   }, []);
 
   const _getData = async () => {
-    if (loading) {
-      return;
+    try {
+      if (loading) {
+        console.log('====================================');
+        console.log('already loading');
+        console.log('====================================');
+        return;
+      }
+      setLoading(true);
+      let res1 = await api.get(card1,{}, {timeout: 5000});
+      let res2 = await api.get(card2,{}, {timeout: 5000});
+      let res3 = await api.get(card3,{}, {timeout: 5000});
+  
+      // const [res1, res2, res3] = Promise.all()
+  
+      setGpu1(res1.data);
+      setGpu2(res2.data);
+      setGpu3(res3.data);
+  
+      
+    } catch (error) {
+      console.log('ERROR ====================================');
+      console.log(error);
+      console.log('====================================');
     }
-    setLoading(true);
-    let res1 = await api.get("http://guac5300.asuscomm.com:3080/summary");
-    let res2 = await api.get("http://guac5300.asuscomm.com:3070/summary");
-    let res3 = await api.get("http://guac5300.asuscomm.com:3071/summary");
-
-    // const [res1, res2, res3] = Promise.all()
-
-    setGpu1(res1.data);
-    setGpu2(res2.data);
-    setGpu3(res3.data);
-
     setLoading(false);
   };
 

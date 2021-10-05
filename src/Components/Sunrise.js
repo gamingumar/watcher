@@ -20,7 +20,7 @@ const api = create({
 export const Sunrise = () => {
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
 
   const [coords, setCoords] = useState({
     lat: "33.6461432",
@@ -45,13 +45,14 @@ export const Sunrise = () => {
 
   // fetch sunrise / sunset
   const _fetchData = async () => {
-    let res = await api.get(`http://api.sunrise-sunset.org/json?lat=${coords.lat}&lng=${coords.lng}&date=today`);
+    let res = await api.get(
+      `http://api.sunrise-sunset.org/json?lat=${coords.lat}&lng=${coords.lng}&date=today`
+    );
 
     if (res.ok) {
-      setData(res.data.results)
+      setData(res.data.results);
     }
-
-  }
+  };
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -63,27 +64,35 @@ export const Sunrise = () => {
   }, []);
 
   useEffect(() => {
-    _fetchData()
-  }, [coords])
+    _fetchData();
+  }, [coords]);
 
   if (!data || loading) {
-    return null
+    return null;
   }
 
   const _formatTime = (t) => {
-    let date = moment().format("Y-M-D")
+    let date = moment().format("Y-M-D");
 
-    let timeData = moment.utc(date+ ' ' +t, "Y-M-D HH:mm:ss:A").local();
+    let timeData = moment.utc(date + " " + t, "Y-M-D HH:mm:ss:A").local();
 
-    return timeData.format("LTS") + ` (${timeData.fromNow()})`
-  }
-
+    return timeData.format("LTS") + ` (${timeData.fromNow()})`;
+  };
 
   return (
-      <p style={{fontWeight: "normal", fontSize: "calc(12px + 1vmin)"}}>
+    <div>
+      <p style={styles}>
         Sunrise: <b>{_formatTime(data.sunrise)} </b>
-        <hr/>
+      </p>
+      <hr />
+      <p style={styles}>
         Sunset: <b>{_formatTime(data.sunset)}</b>
       </p>
+    </div>
   );
+};
+
+const styles = {
+  fontWeight: "normal",
+  fontSize: "calc(12px + 1vmin)",
 };
