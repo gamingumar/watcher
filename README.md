@@ -34,9 +34,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 It will start node static server hosting on port 5000
 
+### `npm run deploy`
 
-### TODO:
-
-- use react env variables for URL and other stuff
-- temperature
-- fix realtime update of data
+This will deploy to github pages
