@@ -46,7 +46,7 @@ export const Sunrise = () => {
   // fetch sunrise / sunset
   const _fetchData = async () => {
     let res = await api.get(
-      `http://api.sunrise-sunset.org/json?lat=${coords.lat}&lng=${coords.lng}&date=today`
+      `https://api.sunrise-sunset.org/json?lat=${coords.lat}&lng=${coords.lng}&date=today`
     );
 
     if (res.ok) {
