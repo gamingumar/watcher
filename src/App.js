@@ -76,9 +76,9 @@ function App() {
       setGpu2(res2.data);
       // setGpu3(res3.data);
     } catch (error) {
-      console.log("ERROR ====================================");
-      console.log(error);
-      console.log("====================================");
+      // console.log("ERROR ====================================");
+      // console.log(error);
+      // console.log("====================================");
     }
     setLoading(false);
   };
@@ -118,8 +118,19 @@ function App() {
         <code style={{ color: "red" }}>{error}</code>
 
         <p style={{ fontSize: 12 }}>
-          Powered by gamingumar.com | whilegeek.com | umar.tech &copy;{" "}
-          {datetime.format("Y")} | v{version}
+          Powered by{" "}
+          <a href="https://gamingumar.com" target="_blank" rel="noreferrer">
+            gamingumar.com
+          </a>{" "}
+          |{" "}
+          <a href="https://whilegeek.com" target="_blank" rel="noreferrer">
+            whilegeek.com
+          </a>{" "}
+          |{" "}
+          <a href="https://umar.tech" target="_blank" rel="noreferrer">
+            umar.tech
+          </a>{" "}
+          &copy; {datetime.format("Y")} | v{version}
         </p>
       </header>
     </div>

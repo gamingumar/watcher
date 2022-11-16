@@ -67,7 +67,7 @@ export const Sunrise = () => {
     _fetchData();
   }, [coords]);
 
-  if (!data || loading) {
+  if (!data) {
     return null;
   }
 
