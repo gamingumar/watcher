@@ -1,7 +1,7 @@
 {
   "name": "watcher",
-  "version": "0.1.9",
-  "private": true,
+  "version": "0.2.0",
+  "private": false,
   "homepage": "https://gamingumar.com/watcher",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

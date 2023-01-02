@@ -98,11 +98,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>{datetime.format("LTS")}</h1>
-        <h3>
-          {datetime.format("LL")}{" "}
+        <h3 style={{ marginTop: 5}}>
+          {datetime.format("dddd Do MMMM, YYYY")}
           {loading && (
             <img
-              style={{ marginTop: 5, position: "absolute" }}
+              style={{ marginTop: 10, position: "absolute" }}
               src={logo}
               className="App-logo"
               alt="logo"
