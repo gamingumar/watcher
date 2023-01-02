@@ -7,6 +7,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a:link { text-decoration: none; color: antiquewhite; }
+
+
+a:visited { text-decoration: none; color: antiquewhite; }
+
+
+a:hover { text-decoration: none; color: antiquewhite; font-weight: 600; }
+
+
+a:active { text-decoration: none; }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import moment from "moment";
-import { version } from "../package.json";
+import packageInfo from "../package.json";
 import { useEffect, useState } from "react";
 
 import { create } from "apisauce";
@@ -130,7 +130,7 @@ function App() {
           <a href="https://umar.tech" target="_blank" rel="noreferrer">
             umar.tech
           </a>{" "}
-          &copy; {datetime.format("Y")} | v{version}
+          &copy; {datetime.format("Y")} | v{packageInfo.version}
         </p>
       </header>
     </div>
