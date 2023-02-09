@@ -97,9 +97,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>{datetime.format("LTS")}</h1>
-        <h3 style={{ marginTop: 5}}>
+        <h1 style={{fontSize: '10vh'}}>{datetime.format("LTS")}</h1>
+        <h3 style={{ marginTop: 5, fontSize: '4vh'}}>
           {datetime.format("dddd Do MMMM, YYYY")}
+        </h3>
           {loading && (
             <img
               style={{ marginTop: 10, position: "absolute" }}
@@ -109,7 +110,6 @@ function App() {
             />
           )}
           <Sunrise />
-        </h3>
 
         {/* <GpuBlock gpu={gpu1} title="RTX 3080-OC" />
         <GpuBlock gpu={gpu3} title="RTX 3070-OC" />

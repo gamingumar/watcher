@@ -81,18 +81,26 @@ export const Sunrise = () => {
 
   return (
     <div>
-      <h2 style={styles}>
+      <h1 style={styles.title}>
         Sunrise: <b>{_formatTime(data.sunrise)} </b>
-      </h2>
+      </h1>
       <hr />
-      <h2 style={styles}>
+      <h4 style={styles.title2}>
         Sunset: <b>{_formatTime(data.sunset)}</b>
-      </h2>
+      </h4>
     </div>
   );
 };
 
 const styles = {
-  fontWeight: "normal",
-  fontSize: "calc(22px + 1vmin)",
+  title: {
+    fontWeight: "normal",
+    // fontSize: "calc(28px + 1vmin)",
+    fontSize: "5vh",
+  },
+  title2: {
+    fontWeight: "normal",
+    // fontSize: "calc(22px + 1vmin)",
+    fontSize: "4vh",
+  }
 };
