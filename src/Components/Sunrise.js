@@ -11,6 +11,7 @@
 import { create } from "apisauce";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import useLocation from "../hooks/useLocation";
 
 const api = create({
   baseURL: "",
@@ -18,35 +19,14 @@ const api = create({
 });
 
 export const Sunrise = () => {
-  const [loading, setLoading] = useState(true);
-
   const [data, setData] = useState(null);
 
-  const [coords, setCoords] = useState({
-    lat: "33.6461432",
-    lng: "73.0523224",
-  });
-
-  const _onSuccess = (position) => {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-
-    setCoords({
-      lat,
-      lng,
-    });
-
-    setLoading(false);
-  };
-
-  const _onError = () => {
-    setLoading(false);
-  };
+  const location = useLocation()
 
   // fetch sunrise / sunset
   const _fetchData = async () => {
     let res = await api.get(
-      `https://api.sunrise-sunset.org/json?lat=${coords.lat}&lng=${coords.lng}&date=today`
+      `https://api.sunrise-sunset.org/json?lat=${location.latitude}&lng=${location.longitude}&date=today`
     );
 
     if (res.ok) {
@@ -55,17 +35,8 @@ export const Sunrise = () => {
   };
 
   useEffect(() => {
-    if (!navigator.geolocation) {
-      // status.textContent = 'Geolocation is not supported by your browser';
-    } else {
-      // status.textContent = 'Locating…';
-      navigator.geolocation.getCurrentPosition(_onSuccess, _onError);
-    }
-  }, []);
-
-  useEffect(() => {
     _fetchData();
-  }, [coords]);
+  }, [location]);
 
   if (!data) {
     return null;

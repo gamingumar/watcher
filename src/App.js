@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { create } from "apisauce";
 import { GpuBlock } from "./Components/GpuBlock";
 import { Sunrise } from "./Components/Sunrise";
+import { PrayerTimes } from "./Components/PrayerTimes";
 
 const card1 = "http://192.168.1.56:4067/summary";
 const card3 = "http://192.168.1.56:4069/summary";
@@ -110,6 +111,8 @@ function App() {
             />
           )}
           <Sunrise />
+
+          <PrayerTimes />
 
         {/* <GpuBlock gpu={gpu1} title="RTX 3080-OC" />
         <GpuBlock gpu={gpu3} title="RTX 3070-OC" />
